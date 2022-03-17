@@ -10,6 +10,8 @@ class Game():
     gold = 0
     def __init__(self):
         print('Welcome in Adventure Game!')
+        print("-"*20)
+        name = input('Enter your name: ')
         print("")
         print('Choose character: ')
         print('1. Warrior')
