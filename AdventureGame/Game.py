@@ -1,8 +1,12 @@
 import time
+import pymysql as sql
 from Characters import Character
 from Weapons import Weapon
 ch = Character()
 we = Weapon()
+
+con = sql.Connect(host='127.0.0.1', unix_socket='', user='root', password='', db='dbgame') 
+cur = con.cursor() 
 
 class Game():
     character = None
@@ -10,8 +14,6 @@ class Game():
     gold = 0
     def __init__(self):
         print('Welcome in Adventure Game!')
-        print("-"*20)
-        name = input('Enter your name: ')
         print("")
         print('Choose character: ')
         print('1. Warrior')
