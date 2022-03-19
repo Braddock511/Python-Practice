@@ -2,11 +2,15 @@ import time
 import pymysql as sql
 from Characters import Character
 from Weapons import Weapon
+from Login import *
 ch = Character()
 we = Weapon()
+log = Login()
 
 con = sql.Connect(host='127.0.0.1', unix_socket='', user='root', password='', db='dbgame') 
 cur = con.cursor() 
+
+#polaczenie tabel user i character
 
 class Game():
     character = None
@@ -15,6 +19,12 @@ class Game():
     def __init__(self):
         print('Welcome in Adventure Game!')
         print("")
+        acc = input('Do you have account? (Y/N) ')
+        if acc.upper()=='Y':
+            log.login()
+        elif acc=='N':
+            log.register()
+
         print('Choose character: ')
         print('1. Warrior')
         print('2. Wizard')
@@ -68,25 +78,26 @@ class Game():
             if choose_weapon==3:
                 self.weapon = we.crossbow()
 
-        print('-'*20)
-        print('So you picked your hero, now you can go to conquer new land!')
-        time.sleep(2.5)
-        print("But you can't, because...")
-        time.sleep(2)
-        print('You are poor and you have 0 gold, so you need take a contract on a monster!')
-        time.sleep(2.5)
-        print('-'*20)
-        input('Press enter to continue ')
+        #story
+        # print('-'*20)
+        # print('So you picked your hero, now you can go to conquer new land!')
+        # time.sleep(2.5)
+        # print("But you can't, because...")
+        # time.sleep(2)
+        # print('You are poor and you have 0 gold, so you need take a contract on a monster!')
+        # time.sleep(2.5)
+        # print('-'*20)
+        # input('Press enter to continue ')
 
-        print('You are in village, you see board with orders')
-        time.sleep(2.5)
-        print('You have 2 options: ')
-        time.sleep(1)
-        print("")
-        print('1. Take a contract in which you have to solve riddle in village')
-        print('2. Take a contract in which you have to regain treasure of rich resident from village')
-        print('-'*20)
-        answer = int(input('Choose: '))
+        # print('You are in village, you see board with orders')
+        # time.sleep(2.5)
+        # print('You have 2 options: ')
+        # time.sleep(1)
+        # print("")
+        # print('1. Take a contract in which you have to solve riddle in village')
+        # print('2. Take a contract in which you have to regain treasure of rich resident from village')
+        # print('-'*20)
+        # answer = int(input('Choose: '))
         
         
     if __name__ == '__main__':
