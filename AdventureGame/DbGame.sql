@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 17 Mar 2022, 07:34
+-- Czas generowania: 21 Mar 2022, 20:40
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.10
 
@@ -18,30 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `game`
+-- Baza danych: `dbgame`
 --
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `characters`
---
-
-CREATE TABLE `characters` (
-  `name` varchar(30) NOT NULL,
-  `hp` int(5) NOT NULL,
-  `damage` int(5) NOT NULL,
-  `agility` int(5) NOT NULL,
-  `intelligence` int(5) NOT NULL,
-  `speed` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Zrzut danych tabeli `characters`
---
-
-INSERT INTO `characters` (`name`, `hp`, `damage`, `agility`, `intelligence`, `speed`) VALUES
-('warrior', 120, 100, 60, 20, 30);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
