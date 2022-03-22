@@ -9,6 +9,37 @@ def main():
     # log = Login(con, db)
     # gold = 0
     
+    #Loading data
+    # query = 'SELECT * FROM characters WHERE id=1;'
+
+    # character_statistics = {'id':'','name':'','hp':'','damage':'','agility':'','intelligence':'','speed':'',}
+
+    # db.execute(query)
+
+    # for x in db:
+    #     statistics['id']=x[0]
+    #     statistics['name']=x[1]
+    #     statistics['hp']=x[2]
+    #     statistics['damage']=x[3]
+    #     statistics['agility']=x[4]
+    #     statistics['intelligence']=x[5]
+    #     statistics['speed']=x[6]
+
+    # query2 = 'SELECT id, name, attack, speed_attack, weight FROM weapons WHERE id=1;'
+
+    # weapon_statistics = {'id':'','name':'','attack':'','speed_attack':'','weight':''}
+
+    # db.execute(query)
+
+    # for x in db:
+    #     statistics['id']=x[0]
+    #     statistics['name']=x[1]
+    #     statistics['attack']=x[2]
+    #     statistics['speed_attack']=x[3]
+    #     statistics['weight']=x[4]
+
+
+
     # print('Welcome in Adventure Game!')
     # print("")
     # acc = input('Do you have account? (Y/N) ')
