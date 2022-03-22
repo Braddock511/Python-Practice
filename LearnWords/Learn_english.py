@@ -109,7 +109,7 @@ class learn():
                 print(f'3.{all[2][0]}') 
                 print(f'4.{all[3][0]}') 
                 print("")
-                odp = int(input('Wybierz odpowiedz: '))
+                odp = int(input('Choose answer: '))
                 print("")
 
                 if odp==1:
