@@ -22,6 +22,17 @@ class Combat:
     def fight(self):
         print('Fight!')
         while True:
+            #result of fight
+            if self.monster_hp<1:
+                print("")
+                print('You won!')
+                break
+
+            if self.hp<1:
+                print("")
+                print('You lose!')
+                break
+
             luck = random.uniform(0,1)
             self.monster_attack = int(self.monster_attack*random.randint(1,3))
 
@@ -65,10 +76,30 @@ class Combat:
 
             #strong attack
             if choice==2:
-                self.monster_hp-=self.strong_attack
-                if luck<=0.1:
-                    self.monster_hp-=self.strong_attack*1.5
-                    print("Critical attack!")
+                if self.stamina>=50:
+                    if luck>self.monster_dodge/100:
+                        self.monster_hp-=self.strong_attack
+                        print("")
+                        print(f"You dealt {int(self.strong_attack)} damage to a {self.monster['name']}!")
+                        
+                        if luck<=0.1:
+                            self.monster_hp-=self.strong_attack*1.5
+                            print("")
+                            print("Critical attack!")
+                            print("")
+                            print(f"You dealt additional {self.strong_attack*1.5} damage to a {self.monster['name']}!")
+                            time.sleep(1)
+                    else:
+                        print("")
+                        print('Monter dodged your attack!')
+                        luck = random.uniform(0,1)
+
+                    self.stamina-=50
+                else:
+                    print("")
+                    print('You have to rest!')
+                    pass
+                time.sleep(1)
 
             #rest
             if choice==3:
@@ -84,6 +115,7 @@ class Combat:
                 else:
                     print(f"You weren't escaped! You lost {int(self.monster_attack)} hp")
                     self.hp-=self.monster_attack
+                    pass
             
 
             #monster attack player
@@ -96,17 +128,6 @@ class Combat:
                 print(f'You dodged {self.monster["name"]} attack!')
             time.sleep(1)
             
-
-            #result of fight
-            if self.monster_hp<1:
-                print("")
-                print('You won!')
-                break
-
-            if self.hp<1:
-                print("")
-                print('You lose!')
-                break
 
             time.sleep(.5)
 
