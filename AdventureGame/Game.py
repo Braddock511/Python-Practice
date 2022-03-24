@@ -4,39 +4,40 @@ from Login import *
 
 def main():
     #zrobic logowanie (zmienna name nie od razu jest zapisywana w tabeli users, przez co nie można wpisać danych do tabeli main)
-    # con = sql.Connect(host='127.0.0.1', unix_socket='', user='root', password='', db='dbgame') 
-    # db = con.cursor() 
-    # log = Login(con, db)
-    # gold = 0
+    con = sql.Connect(host='127.0.0.1', unix_socket='', user='root', password='', db='dbgame') 
+    db = con.cursor() 
+    log = Login(con, db)
+    gold = 0
     
     #Loading data
-    # query = 'SELECT * FROM characters WHERE id=1;'
+    query = 'SELECT * FROM characters WHERE id=1;'
 
-    # character_statistics = {'id':'','name':'','hp':'','damage':'','agility':'','intelligence':'','speed':'',}
+    character_statistics = {'id':'','name':'','hp':'','damage':'','agility':'','intelligence':'','speed':''}
 
-    # db.execute(query)
+    db.execute(query)
 
-    # for x in db:
-    #     statistics['id']=x[0]
-    #     statistics['name']=x[1]
-    #     statistics['hp']=x[2]
-    #     statistics['damage']=x[3]
-    #     statistics['agility']=x[4]
-    #     statistics['intelligence']=x[5]
-    #     statistics['speed']=x[6]
+    for x in db:
+        counter=0
+        for keys in character_statistics.keys():
+            character_statistics[keys]=x[counter]
+            counter+=1
+            
 
-    # query2 = 'SELECT id, name, attack, speed_attack, weight FROM weapons WHERE id=1;'
+    query2 = 'SELECT id, name, attack, speed_attack, weight FROM weapons WHERE id=1;'
 
-    # weapon_statistics = {'id':'','name':'','attack':'','speed_attack':'','weight':''}
+    weapon_statistics = {'id':'','name':'','attack':'','speed_attack':'','weight':''}
 
-    # db.execute(query)
+    db.execute(query2)
 
-    # for x in db:
-    #     statistics['id']=x[0]
-    #     statistics['name']=x[1]
-    #     statistics['attack']=x[2]
-    #     statistics['speed_attack']=x[3]
-    #     statistics['weight']=x[4]
+    for x in db:
+        counter=0
+        for keys in character_statistics.keys():
+            weapon_statistics[keys]=x[counter]
+            counter+=1
+        
+
+    print(character_statistics)
+    print(weapon_statistics)
 
 
 

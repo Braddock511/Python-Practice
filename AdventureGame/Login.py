@@ -4,7 +4,8 @@ from datetime import date
 class Login:
     def __init__(self, con, db):
         self.con = con 
-        self.db = db 
+        self.db = db
+     
     def register(self):
         print('-'*20)
         print('Register')
@@ -52,7 +53,9 @@ class Login:
         self.db.execute(query2)
         self.weapon = [statistics for statistics in self.db]
         self.con.commit()
-        
+    
+
+    # @__init__ #nowe polaczenie po wprowadzeniu danych
     def add_to_main(self):
         counter2 = 'SELECT COUNT(id) FROM main'
         id_user = f'SELECT id FROM users WHERE name={self.name}'
@@ -60,6 +63,7 @@ class Login:
         query3 = f"INSERT INTO main VALUES ({self.db.execute(counter2)+1},{self.db.execute(id_user)}, {self.db.execute(id_character)}, {date.today()})"
         self.db.execute(query3)
         self.con.commit()
+
 
     def login(self):
         while True:
@@ -86,4 +90,3 @@ class Login:
                     break
                 elif answer.upper()=='N':
                     pass
-        
