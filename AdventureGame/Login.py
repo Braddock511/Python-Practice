@@ -1,16 +1,26 @@
 import time
 from datetime import date
+import pymysql as sql
 
-class Login:
-    def __init__(self, con, db):
-        self.con = con 
-        self.db = db
-     
+def retry_conn(attribute):
+    def _retry_conn(f):
+        def wrapper(self, *args):
+            print (getattr(self, attribute))
+            return f(self, *args)
+        return wrapper
+    return _retry_conn
+
+class Login(object):
+    def __init__(self, host, unix_socket, user, password, db):
+        self.con = sql.Connect(host=host, unix_socket=unix_socket,user=user,password=password, db=db) 
+        self.db = self.con.cursor()
+        
     def register(self):
         print('-'*20)
         print('Register')
         print('-'*20)
         
+        #user
         self.name = input('Enter name: ')
         password = input('Enter password: ')
         counter = self.db.execute('SELECT length(id) FROM users;')
@@ -18,6 +28,7 @@ class Login:
         val = (counter+1, self.name, password)
         self.db.execute(query,val)
 
+        #character
         print('Choose character: ')
         print('1. Warrior')
         print('2. Wizard')
@@ -26,9 +37,8 @@ class Login:
 
         self.choose_character = int(input('Choose: '))
         print('-'*20)
-        query1 = f'SELECT hp, damage, agility, intelligence, speed FROM characters WHERE id={self.choose_character}'
-        self.db.execute(query1)
-        self.character = [statistics for statistics in self.db]
+        
+        #weapon
         if self.choose_character==1:
             print('Choose weapon: ')
             print('1. Sword')
@@ -49,20 +59,21 @@ class Login:
             print("")
 
         self.choose_weapon = int(input('Choose: '))
-        query2 = f'SELECT attack, speed_attack, weight FROM weapons WHERE id={self.choose_weapon}'
-        self.db.execute(query2)
-        self.weapon = [statistics for statistics in self.db]
-        self.con.commit()
-    
 
-    # @__init__ #nowe polaczenie po wprowadzeniu danych
+        self.con.commit()
+        self.con.close( )
+    
+    @retry_conn
     def add_to_main(self):
+        print('asd')
         counter2 = 'SELECT COUNT(id) FROM main'
         id_user = f'SELECT id FROM users WHERE name={self.name}'
         id_character = f'SELECT id FROM characters WHERE id={self.choose_character}'
         query3 = f"INSERT INTO main VALUES ({self.db.execute(counter2)+1},{self.db.execute(id_user)}, {self.db.execute(id_character)}, {date.today()})"
         self.db.execute(query3)
+
         self.con.commit()
+        self.con.close()
 
 
     def login(self):
@@ -90,3 +101,6 @@ class Login:
                     break
                 elif answer.upper()=='N':
                     pass
+        
+    def get_name(self):
+        return self.name
