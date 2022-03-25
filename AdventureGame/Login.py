@@ -2,15 +2,7 @@ import time
 from datetime import date
 import pymysql as sql
 
-def retry_conn(attribute):
-    def _retry_conn(f):
-        def wrapper(self, *args):
-            print (getattr(self, attribute))
-            return f(self, *args)
-        return wrapper
-    return _retry_conn
-
-class Login(object):
+class Login():
     def __init__(self, host, unix_socket, user, password, db):
         self.con = sql.Connect(host=host, unix_socket=unix_socket,user=user,password=password, db=db) 
         self.db = self.con.cursor()
@@ -63,7 +55,6 @@ class Login(object):
         self.con.commit()
         self.con.close( )
     
-    @retry_conn
     def add_to_main(self):
         print('asd')
         counter2 = 'SELECT COUNT(id) FROM main'
