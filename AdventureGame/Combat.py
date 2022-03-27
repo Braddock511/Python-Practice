@@ -141,7 +141,3 @@ class Combat:
         print('-'*20)
         input('Press enter to exit ')
 
-
-Warrior_with_sword = Combat({'id': 1, 'name': 'Warrior', 'hp': 120, 'damage': 100, 'agility': 60, 'intelligence': 20, 'speed': 30}, {'id': 1, 'name': 'sword', 'attack': 100, 'speed_attack': 50, 'weight': 1.35}, {'id': 1, 'name': 'Troll', 'hp': 1000, 'attack': 10, 'dodge': 30})
-
-Warrior_with_sword.fight()

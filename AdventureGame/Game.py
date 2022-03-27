@@ -1,52 +1,47 @@
 import time
-import pymysql as sql
-from Login import *
+from Database import *
+from Combat import *
 
 def main():
-    #zrobic logowanie (zmienna name nie od razu jest zapisywana w tabeli users, przez co nie można wpisać danych do tabeli main)
-    host='127.0.0.1' 
-    unix_socket='' 
-    user='root' 
-    password=''
-    db='dbgame'
-    log = Login(host, unix_socket, user, password, db)
+    dbase = Db(host="localhost", port = 5432, db="postgres", user="postgres", password="123")
 
     print('Welcome in Adventure Game!')
     print("")
     acc = input('Do you have account? (Y/N) ')
-    if acc.upper()=='Y':
-        log.login()
-    elif acc.upper()=='N':
-        log.register()
-        log.add_to_main()
+    if acc.upper() == 'Y':
+        dbase.login()
+        dbase.user_character()
+    elif acc.upper() == 'N':
+        dbase.new_user()
+        dbase.new_character()
+        dbase.add_to_main()
+        print('')
+        print('Sign in now')
+        dbase.login()
+        dbase.user_character()
 
-    # #Loading data
-    # query = f'SELECT * FROM characters WHERE id={1};'
+    stats = dbase.user_stats()
 
-    # character_statistics = {'id':'','name':'','hp':'','damage':'','agility':'','intelligence':'','speed':''}
+    #Loading data
+    character_statistics = {'name':'','hp':'','damage':'','agility':'','intelligence':'','speed':''}
 
-    # db.execute(query)
+    character = dbase.execute(f"SELECT name, hp, damage, agility, intelligence, speed FROM characters WHERE name='{stats[0][1]}'")
 
-    # for x in db:
-    #     counter=0
-    #     for keys in character_statistics.keys():
-    #         character_statistics[keys]=x[counter]
-    #         counter+=1
-            
+    for i, keys in enumerate(character_statistics.keys()):
+        character_statistics[keys] = character[i]
 
-    # query2 = 'SELECT id, name, attack, speed_attack, weight FROM weapons WHERE id=1;'
 
-    # weapon_statistics = {'id':'','name':'','attack':'','speed_attack':'','weight':''}
+    weapon_statistics = {'name':'','attack':'','speed_attack':'','weight':''}
 
-    # db.execute(query2)
+    weapon = dbase.execute(f"SELECT name, attack, speed_attack, weight FROM weapons WHERE name='{stats[1][2]}'")
 
-    # for x in db:
-    #     counter=0
-    #     for keys in weapon_statistics.keys():
-    #         weapon_statistics[keys]=x[counter]
-    #         counter+=1
+    for i, keys in enumerate(weapon_statistics.keys()):
+        weapon_statistics[keys] = weapon[i]
     
-    
+    combat = Combat(character_statistics, weapon_statistics, {'id': 1, 'name': 'Troll', 'hp': 1000, 'attack': 10, 'dodge': 30})
+
+    combat.show_statistics()
+
     #story
     # print('-'*20)
     # print('So you picked your hero, now you can go to conquer new land!')
@@ -69,7 +64,5 @@ def main():
     # answer = int(input('Choose: '))
         
         
-    if __name__ == '__main__':
-        pass
-
-main()
+if __name__ == '__main__':
+    main()
