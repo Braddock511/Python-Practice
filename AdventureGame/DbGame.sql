@@ -1,194 +1,180 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Czas generowania: 22 Mar 2022, 20:29
--- Wersja serwera: 10.4.21-MariaDB
--- Wersja PHP: 8.0.10
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Baza danych: `dbgame`
+-- PostgreSQL database dump
 --
 
--- --------------------------------------------------------
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
 --
--- Struktura tabeli dla tabeli `characters`
+-- Name: adminpack; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE TABLE `characters` (
-  `id` int(3) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `hp` int(5) NOT NULL,
-  `damage` int(5) NOT NULL,
-  `agility` int(5) NOT NULL,
-  `intelligence` int(5) NOT NULL,
-  `speed` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
+
 
 --
--- Zrzut danych tabeli `characters`
+-- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
 --
 
-INSERT INTO `characters` (`id`, `name`, `hp`, `damage`, `agility`, `intelligence`, `speed`) VALUES
-(1, 'Warrior', 120, 100, 60, 20, 30),
-(2, 'Wizard', 60, 140, 20, 100, 20),
-(3, 'Archer', 80, 120, 80, 60, 50);
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `main`
---
+SET default_tablespace = '';
 
-CREATE TABLE `main` (
-  `id` int(3) NOT NULL,
-  `id_user` int(3) NOT NULL,
-  `id_character` int(3) NOT NULL,
-  `Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
+SET default_table_access_method = heap;
 
 --
--- Struktura tabeli dla tabeli `monsters`
+-- Name: characters; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE `monsters` (
-  `id` int(3) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `hp` int(3) NOT NULL,
-  `attack` int(3) NOT NULL,
-  `dodge` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE public.characters (
+    id integer NOT NULL,
+    name character varying(30) NOT NULL,
+    hp integer NOT NULL,
+    damage integer NOT NULL,
+    agility integer NOT NULL,
+    intelligence integer NOT NULL,
+    speed integer NOT NULL
+);
+
+
+ALTER TABLE public.characters OWNER TO postgres;
 
 --
--- Zrzut danych tabeli `monsters`
+-- Name: main; Type: TABLE; Schema: public; Owner: postgres
 --
 
-INSERT INTO `monsters` (`id`, `name`, `hp`, `attack`, `dodge`) VALUES
-(1, 'Troll', 1000, 10, 0),
-(2, 'Wolf', 200, 40, 30),
-(3, 'Wraith', 100, 70, 70),
-(4, 'Zombie', 1200, 5, 0);
+CREATE TABLE public.main (
+    id integer NOT NULL,
+    id_user integer NOT NULL,
+    id_character integer NOT NULL,
+    id_weapon integer NOT NULL,
+    date date NOT NULL
+);
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `users`
---
-
-CREATE TABLE `users` (
-  `id` int(3) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `password` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE public.main OWNER TO postgres;
 
 --
--- Zrzut danych tabeli `users`
+-- Name: monsters; Type: TABLE; Schema: public; Owner: postgres
 --
 
-INSERT INTO `users` (`id`, `name`, `password`) VALUES
-(1, 'wruku2012', '40bd001563085fc35165329ea1ff5c5ecbdbbeef'),
-(2, 'asd', 'f10e2821bbbea527ea02200352313bc059445190'),
-(3, 'asd', 'aff024fe4ab0fece4091de044c58c9ae4233383a');
+CREATE TABLE public.monsters (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    hp integer NOT NULL,
+    attack integer NOT NULL,
+    dodge integer NOT NULL
+);
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `weapons`
---
-
-CREATE TABLE `weapons` (
-  `id` int(3) NOT NULL,
-  `id_character` int(3) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `attack` int(3) NOT NULL,
-  `speed_attack` int(3) NOT NULL,
-  `weight` decimal(3,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE public.monsters OWNER TO postgres;
 
 --
--- Zrzut danych tabeli `weapons`
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-INSERT INTO `weapons` (`id`, `id_character`, `name`, `attack`, `speed_attack`, `weight`) VALUES
-(1, 1, 'sword', 100, 50, '1.35'),
-(2, 1, 'axe', 80, 60, '0.95'),
-(3, 1, 'spear', 110, 40, '1.00'),
-(4, 2, 'fire_wand', 200, 10, '0.20'),
-(5, 2, 'wind_wand', 50, 100, '0.10'),
-(6, 2, 'lighting_wand', 100, 50, '0.20'),
-(7, 3, 'short_bow', 100, 50, '0.50'),
-(8, 3, 'long_bow', 150, 20, '0.85'),
-(9, 3, 'crossbow', 200, 10, '1.20');
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(30) NOT NULL,
+    password character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
 
 --
--- Indeksy dla zrzutów tabel
+-- Name: weapons; Type: TABLE; Schema: public; Owner: postgres
 --
 
---
--- Indeksy dla tabeli `characters`
---
-ALTER TABLE `characters`
-  ADD PRIMARY KEY (`id`);
+CREATE TABLE public.weapons (
+    id integer NOT NULL,
+    id_character integer NOT NULL,
+    name character varying(100) NOT NULL,
+    attack integer NOT NULL,
+    speed_attack integer NOT NULL,
+    weight real
+);
+
+
+ALTER TABLE public.weapons OWNER TO postgres;
 
 --
--- Indeksy dla tabeli `main`
---
-ALTER TABLE `main`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`,`id_character`),
-  ADD KEY `id_character` (`id_character`);
-
---
--- Indeksy dla tabeli `monsters`
---
-ALTER TABLE `monsters`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `weapons`
---
-ALTER TABLE `weapons`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_character` (`id_character`);
-
---
--- Ograniczenia dla zrzutów tabel
+-- Name: characters characters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
---
--- Ograniczenia dla tabeli `main`
---
-ALTER TABLE `main`
-  ADD CONSTRAINT `main_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `main_ibfk_2` FOREIGN KEY (`id_character`) REFERENCES `characters` (`id`);
+ALTER TABLE ONLY public.characters
+    ADD CONSTRAINT characters_pkey PRIMARY KEY (id);
+
 
 --
--- Ograniczenia dla tabeli `weapons`
+-- Name: main main_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
-ALTER TABLE `weapons`
-  ADD CONSTRAINT `weapons_ibfk_1` FOREIGN KEY (`id_character`) REFERENCES `characters` (`id`);
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE ONLY public.main
+    ADD CONSTRAINT main_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: monsters monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.monsters
+    ADD CONSTRAINT monsters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: weapons weapons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.weapons
+    ADD CONSTRAINT weapons_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: main fk_character; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.main
+    ADD CONSTRAINT fk_character FOREIGN KEY (id_character) REFERENCES public.characters(id);
+
+
+--
+-- Name: main fk_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.main
+    ADD CONSTRAINT fk_user FOREIGN KEY (id_user) REFERENCES public.users(id);
+
+
+--
+-- Name: main fk_weapon; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.main
+    ADD CONSTRAINT fk_weapon FOREIGN KEY (id_weapon) REFERENCES public.weapons(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
