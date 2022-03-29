@@ -6,39 +6,52 @@ class Combat:
         self.weapon = weapon
         self.monster = monster
 
-        #player
+        #character
         self.hp = self.character['hp']
-        self.fast_attack = round(random.randrange((self.weapon['attack']*(self.character['damage']/self.weapon['speed_attack']))/1.25, self.weapon['attack']*(self.character['damage']/self.weapon['speed_attack'])), 2)
-        self.strong_attack = round(random.uniform((self.weapon['attack']+(self.character['damage']*self.weapon['weight']))/1.25, self.weapon['attack']+(self.character['damage']*self.weapon['weight'])), 2) 
-        self.chance_of_dodge = round(random.uniform((self.character['agility']/self.weapon['weight'])/4, self.character['agility']/self.weapon['weight'])/2 ,2)
-        self.chance_of_escape = round(random.uniform((self.character['speed']/(self.weapon['weight']*4))/1.25, self.character['speed']/(self.weapon['weight']*4)), 2)
+        self.damage =  self.character['damage']
+        self.agility =  self.character['agility']
+        self.speed =  self.character['speed']
         self.stamina = 100
+        
+        #weapon
+        self.attack = self.weapon['attack']
+        self.speed_attack = self.weapon['speed_attack']
+        self.weight = self.weapon['weight']
 
         #monster
         self.monster_hp = self.monster['hp']
-        self.monster_attack = round(random.uniform(self.monster['attack']/1.5, self.monster['attack']), 2)
-        self.monster_dodge = round(random.uniform(self.monster['dodge']/1.5, self.monster['dodge']), 2)
+        self.monster_attack = monster['attack']
+        self.monster_dodge = monster['dodge']
+
+        
 
     def fight(self):
-        print('Fight!')
+        print('-'*40)
+        print('Fight!'.center(40))
+        print('-'*40)
         while True:
-            #result of fight
-            if self.monster_hp<1:
-                print("")
-                print('You won!')
-                break
+            #player
+            self.fast_attack = random.randrange((self.attack * (self.damage / self.speed_attack)) / 1.25, self.attack * (self.damage / self.speed_attack))
+            self.strong_attack = int(random.uniform((self.attack + (self.damage * self.weight)) / 1.25, self.attack + (self.damage * self.weight))) 
+            self.chance_of_dodge = round(random.uniform((self.agility / self.weight) / 4, self.agility / self.weight) / 2)
+            self.chance_of_escape = round(random.uniform((self.speed / (self.weight * 4)) / 1.25, self.speed / (self.weight * 4)))
+            
+            #monster
+            self.attack_monster = int(random.uniform(self.monster_attack / 1.5, self.monster_attack))*random.randint(1,4)
+            self.dodge_monster = round(random.uniform(self.monster_dodge / 1.5, self.monster_dodge))
 
+            # #luck in events
+            luck = random.uniform(0,1)
+
+            #lose
             if self.hp<1:
                 print("")
                 print('You lose!')
-                break
-
-            luck = random.uniform(0,1)
-            self.monster_attack = int(self.monster_attack*random.randint(1,3))
+                return exit()
 
             print('-'*40)
-            print(f'Your hp: {int(self.hp)}      | {self.monster["name"]} hp: {int(self.monster_hp)}')
-            print(f'Your stamina: {self.stamina} |')
+            print(f'Your hp: {self.hp}      {self.monster["name"]} hp: {self.monster_hp}')
+            print(f'Your stamina: {self.stamina}')
             print('-'*40)
             print('1. Fast attack') 
             print('2. Strong attack') 
@@ -48,14 +61,14 @@ class Combat:
             choice = int(input('Option: '))
 
             #fast attack
-            if choice==1:
-                if self.stamina>=25:
-                    if luck>self.monster_dodge/100:
+            if choice == 1:
+                if self.stamina >= 25:
+                    if luck > self.monster_dodge / 100:
                         self.monster_hp-=self.fast_attack
                         print("")
                         print(f"You dealt {self.fast_attack} damage to a {self.monster['name']}!")
                         
-                        if luck<=0.1:
+                        if luck <= 0.1:
                             self.monster_hp-=self.fast_attack
                             print("")
                             print("Double attack!")
@@ -67,7 +80,7 @@ class Combat:
                         print('Monter dodged your attack!')
                         luck = random.uniform(0,1)
 
-                    self.stamina-=25
+                    self.stamina -= 25
                 else:
                     print("")
                     print('You have to rest!')
@@ -75,14 +88,13 @@ class Combat:
                 time.sleep(1)
 
             #strong attack
-            if choice==2:
-                if self.stamina>=50:
-                    if luck>self.monster_dodge/100:
+            if choice == 2:
+                if self.stamina >= 50:
+                    if luck > self.monster_dodge / 100:
                         self.monster_hp-=self.strong_attack
                         print("")
-                        print(f"You dealt {int(self.strong_attack)} damage to a {self.monster['name']}!")
-                        
-                        if luck<=0.1:
+                        print(f"You dealt {self.strong_attack} damage to a {self.monster['name']}!")
+                        if luck <= 0.1:
                             self.monster_hp-=self.strong_attack*1.5
                             print("")
                             print("Critical attack!")
@@ -102,33 +114,38 @@ class Combat:
                 time.sleep(1)
 
             #rest
-            if choice==3:
-                self.stamina=100
+            if choice == 3:
+                self.stamina = 100
                 print("")
                 print('You rested!')
             
             #escape
             if choice==4:
-                if luck<self.chance_of_escape/100:
+                if luck < self.chance_of_escape/100:
+                    print("")
                     print('You were escaped!')
-                    break
+                    return False
+
                 else:
-                    print(f"You weren't escaped! You lost {int(self.monster_attack)} hp")
-                    self.hp-=self.monster_attack
-                    pass
+                    print(f"You weren't escaped!")
             
-
-            #monster attack player
-            if luck>self.chance_of_dodge/100:
-                self.hp-=self.monster_attack
+            #win
+            if self.monster_hp < 1:
                 print("")
-                print(f'{self.monster["name"]} dealt you {self.monster_attack} damage!')
+                print('You won!')
+                return True
+
             else:
-                print("")
-                print(f'You dodged {self.monster["name"]} attack!')
-            time.sleep(1)
+                #monster attacks player
+                if luck > self.chance_of_dodge/100:
+                    self.hp-=self.attack_monster
+                    print("")
+                    print(f'{self.monster["name"]} dealt you {self.attack_monster} damage!')
+                else:
+                    print("")
+                    print(f'You dodged {self.monster["name"]} attack!')
+                time.sleep(1)
             
-
             time.sleep(.5)
 
     def show_statistics(self):
@@ -141,3 +158,5 @@ class Combat:
         print('-'*20)
         input('Press enter to exit ')
 
+
+# a = Combat({'name': 'Warrior', 'hp': 120, 'damage': 100, 'agility': 60, 'intelligence': 20, 'speed': 30}, {'name': 'sword', 'attack': 100, 'speed_attack': 50, 'weight': 1.35},{'name': 'Troll', 'hp': 500, 'attack': 20, 'dodge': 70}).fight()
