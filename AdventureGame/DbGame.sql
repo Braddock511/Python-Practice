@@ -60,7 +60,8 @@ CREATE TABLE public.main (
     id_user integer NOT NULL,
     id_character integer NOT NULL,
     id_weapon integer NOT NULL,
-    date date NOT NULL
+    date date NOT NULL,
+    gold integer DEFAULT 0 NOT NULL
 );
 
 
@@ -156,6 +157,14 @@ ALTER TABLE ONLY public.weapons
 
 ALTER TABLE ONLY public.main
     ADD CONSTRAINT fk_character FOREIGN KEY (id_character) REFERENCES public.characters(id);
+
+
+--
+-- Name: weapons fk_id_character; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.weapons
+    ADD CONSTRAINT fk_id_character FOREIGN KEY (id_character) REFERENCES public.characters(id);
 
 
 --

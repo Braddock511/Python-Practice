@@ -168,4 +168,11 @@ class Db():
         with self.conn:
             with self.conn.cursor() as curs:
                 curs.execute(query)
-                return curs.fetchall()[0]
+                return curs.fetchall()
+
+    def get_name(self):
+        return self.name
+
+    #closing connection
+    def close(self):
+        return self.conn.close()
