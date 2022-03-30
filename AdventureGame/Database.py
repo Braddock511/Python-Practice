@@ -151,8 +151,8 @@ class Db():
                         time.sleep(1)
                 
                 
-    #get stats of user character
-    def user_stats(self):
+    #getting stats of user character
+    def user_stats(self) -> tuple[tuple, tuple]:
         with self.conn:
             with self.conn.cursor() as curs:
                 curs.execute(f"SELECT * FROM characters WHERE name='{self.character}'")
@@ -164,15 +164,16 @@ class Db():
         return stats_character, stats_weapon
 
     #executing query from db
-    def execute(self, query):
+    def execute(self, query) -> list[tuple]:
         with self.conn:
             with self.conn.cursor() as curs:
                 curs.execute(query)
                 return curs.fetchall()
 
-    def get_name(self):
+    #getting name user
+    def get_name(self) -> str:
         return self.name
 
     #closing connection
-    def close(self):
+    def close(self) -> any:
         return self.conn.close()
