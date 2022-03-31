@@ -52,6 +52,21 @@ CREATE TABLE public.characters (
 ALTER TABLE public.characters OWNER TO postgres;
 
 --
+-- Name: enemies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.enemies (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    hp integer NOT NULL,
+    attack integer NOT NULL,
+    dodge integer NOT NULL
+);
+
+
+ALTER TABLE public.enemies OWNER TO postgres;
+
+--
 -- Name: main; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -66,21 +81,6 @@ CREATE TABLE public.main (
 
 
 ALTER TABLE public.main OWNER TO postgres;
-
---
--- Name: monsters; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.monsters (
-    id integer NOT NULL,
-    name character varying(100) NOT NULL,
-    hp integer NOT NULL,
-    attack integer NOT NULL,
-    dodge integer NOT NULL
-);
-
-
-ALTER TABLE public.monsters OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -128,10 +128,10 @@ ALTER TABLE ONLY public.main
 
 
 --
--- Name: monsters monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: enemies monsters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.monsters
+ALTER TABLE ONLY public.enemies
     ADD CONSTRAINT monsters_pkey PRIMARY KEY (id);
 
 

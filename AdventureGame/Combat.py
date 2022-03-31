@@ -1,7 +1,7 @@
 import random
 import time
 class Combat:
-    def __init__(self, character: dict, weapon: dict, enemy: dict):
+    def __init__(self, character: dict, weapon: dict, enemy: dict, number_of_enemies: int):
         self.character = character
         self.weapon = weapon
         self.enemy = enemy
@@ -19,8 +19,8 @@ class Combat:
         self.weight = self.weapon['weight']
 
         #enemy
-        self.enemy_hp = self.enemy['hp']
-        self.enemy_attack = enemy['attack']
+        self.enemy_hp = self.enemy['hp']*number_of_enemies
+        self.enemy_attack = enemy['attack']*(number_of_enemies/2)
         self.enemy_dodge = enemy['dodge']
 
         
@@ -159,4 +159,4 @@ class Combat:
         input('Press enter to exit ')
 
 
-# a = Combat({'name': 'Warrior', 'hp': 120, 'damage': 100, 'agility': 60, 'intelligence': 20, 'speed': 30}, {'name': 'sword', 'attack': 100, 'speed_attack': 50, 'weight': 1.35},{'name': 'Troll', 'hp': 500, 'attack': 20, 'dodge': 70}).fight()
+# a = Combat({'name': 'Warrior', 'hp': 120, 'damage': 100, 'agility': 60, 'intelligence': 20, 'speed': 30}, {'name': 'sword', 'attack': 100, 'speed_attack': 50, 'weight': 1.35},{'name': 'Troll', 'hp': 500, 'attack': 20, 'dodge': 0}, 3).fight()
