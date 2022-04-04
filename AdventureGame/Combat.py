@@ -1,11 +1,15 @@
 import random
 import time
-class Combat:
-    def __init__(self, character: dict, weapon: dict, enemy: dict, number_of_enemies: int):
-        self.character = character
-        self.weapon = weapon
-        self.enemy = enemy
+from dataclasses import dataclass
 
+@dataclass
+class Combat:
+    character: dict 
+    weapon: dict 
+    enemy: dict 
+    number_of_enemies: int
+
+    def __post_init__(self) -> None:
         #character
         self.hp = self.character['hp']
         self.damage =  self.character['damage']
@@ -19,11 +23,9 @@ class Combat:
         self.weight = self.weapon['weight']
 
         #enemy
-        self.enemy_hp = self.enemy['hp']*number_of_enemies
-        self.enemy_attack = enemy['attack']*(number_of_enemies/2)
-        self.enemy_dodge = enemy['dodge']
-
-        
+        self.enemy_hp = self.enemy['hp']*self.number_of_enemies
+        self.enemy_attack = self.enemy['attack']*(self.number_of_enemies/2)
+        self.enemy_dodge = self.enemy['dodge']
 
     def fight(self) -> bool:
         print('-'*40)
@@ -48,18 +50,27 @@ class Combat:
                 print("")
                 print('You lose!')
                 return exit()
-
-            print('-'*40)
-            print(f'Your hp: {self.hp}      {self.enemy["name"]} hp: {self.enemy_hp}')
-            print(f'Your stamina: {self.stamina}')
-            print('-'*40)
-            print('1. Fast attack') 
-            print('2. Strong attack') 
-            print('3. Rest')
-            print('4. Escape')
-            print("")
-            choice = int(input('Option: '))
-
+            
+            #player choosing
+            while True:
+                print('-'*40)
+                print(f'Your hp: {self.hp}      {self.enemy["name"]} hp: {self.enemy_hp}')
+                print(f'Your stamina: {self.stamina}')
+                print('-'*40)
+                print('1. Fast attack') 
+                print('2. Strong attack') 
+                print('3. Rest')
+                print('4. Escape')
+                print("")
+                try:
+                    choice = int(input('Option: '))
+                    break
+                except ValueError:
+                    print("")
+                    print('Enter a number!')
+                    print("")
+                    time.sleep(1)
+                    
             #fast attack
             if choice == 1:
                 if self.stamina >= 25:

@@ -1,15 +1,22 @@
 import time
 import psycopg2 as sql
+from dataclasses import dataclass
 
-        
+@dataclass
 class Db():
-    def __init__(self, host, port, db, user, password):
-        self.conn = sql.connect(host = host, port = port, database = db, user = user, password = password)
+    host: str
+    port: int
+    db: str
+    user: str
+    password: str
+
+    def __post_init__(self) -> None:
+        self.conn = sql.connect(host = self.host, port = self.port, database = self.db, user = self.user, password = self.password)
     
     #adding new user to table users
-    def new_user(self):
+    def new_user(self) -> None:
         print('-'*20)
-        print('Register')
+        print('Register'.center(20))
         print('-'*20)
 
         self.name = input('Enter name: ')
@@ -21,45 +28,81 @@ class Db():
                 curs.execute(f"INSERT INTO users VALUES ({id+1}, '{self.name}', ENCODE('{password}', 'hex'))")
 
     #adding new character to table characters and weapon to table weapons
-    def new_character(self):
-        #character
-        print('-'*20)
-        print('Choose character: ')
-        print('1. Warrior')
-        print('2. Wizard')
-        print('3. Archer')
-        print("")
-
-        self.choose_character = int(input('Choose: '))
-        print('-'*20)
-
-        #weapon
-        if self.choose_character == 1:
-            print('Choose weapon: ')
-            print('1. Sword')
-            print('2. Axe')
-            print('3. Spear')
+    def new_character(self) -> None:
+        while True:
+            #character
+            print('-'*20)
+            print('Choose character: ')
+            print('1. Warrior')
+            print('2. Wizard')
+            print('3. Archer')
             print("")
-        if self.choose_character == 2:
-            print('Choose weapon: ')
-            print('4. Fire wand')
-            print('5. Wind wand')
-            print('6. Lighting wand')
-            print("")
-        if self.choose_character == 3:
-            print('Choose weapon: ')
-            print('7. Short bow')
-            print('8. Long bow')
-            print('9. Crossbow')
-            print("")
+            try:
+                self.choose_character = int(input('Choose: '))
+                print('-'*20)
+                if 1<= self.choose_character <= 3:
+                    break
+                else:
+                    print("")
+                    print('The number is out of range!')
+                    print("")
+                    time.sleep(1) 
+                    continue
+            except ValueError:
+                print("")
+                print('Enter a number!')
+                print("")
+                time.sleep(1)
+            
 
-        self.choose_weapon = int(input('Choose: '))
+        while True:
+            #weapon
+            if self.choose_character == 1:
+                print('Choose weapon: ')
+                print('1. Sword')
+                print('2. Axe')
+                print('3. Spear')
+                print("")
+            if self.choose_character == 2:
+                print('Choose weapon: ')
+                print('4. Fire wand')
+                print('5. Wind wand')
+                print('6. Lighting wand')
+                print("")
+            if self.choose_character == 3:
+                print('Choose weapon: ')
+                print('7. Short bow')
+                print('8. Long bow')
+                print('9. Crossbow')
+                print("")
+                
+            
+            try:
+                self.choose_weapon = int(input('Choose: '))
+                if self.choose_character == 1 and 1<= self.choose_weapon <=3:
+                    break
+                elif self.choose_character == 2 and 3<= self.choose_weapon <=6:
+                    break
+                elif self.choose_character == 3 and 6<= self.choose_weapon <=9:
+                    break
+                else:
+                    print("")
+                    print('The number is out of range!')
+                    print("")
+                    time.sleep(1) 
+                    continue
+                
+            except ValueError:
+                print("")
+                print('Enter a number!')
+                print("")
+                time.sleep(1)
 
     #user login
-    def login(self):
+    def login(self) -> None:
         while True:
             print('-'*20)
-            print('Login')
+            print('Login'.center(20))
             print('-'*20)
 
             self.name = input('Enter name: ')
@@ -79,15 +122,20 @@ class Db():
                 print("")
                 print('Login unsuccess')
                 time.sleep(1)
-                answer=input('Do you wanna register? (Y/N) ')
-                if answer.upper()=='Y':
-                    self.new_user()
-                    break
-                elif answer.upper()=='N':
-                    pass
+                while True:
+                    answer = input('Do you wanna register? (Y/N) ')
+                    if answer.upper() == 'Y':
+                        self.new_user()
+                        break
+                    elif answer.upper() == 'N':
+                        pass
+                    else:
+                        print("")
+                        print('You can only choose between yes and no!')
+                        time.sleep(1)
 
     #adding data to main table
-    def add_to_main(self):
+    def add_to_main(self) -> None:
         try:
             with self.conn:
                 with self.conn.cursor() as curs:
@@ -117,7 +165,7 @@ class Db():
             
 
     #choosing charcter after login
-    def user_character(self):
+    def user_character(self) -> None:
         with self.conn:
             with self.conn.cursor() as curs:
                 curs.execute(f"SELECT ch.name, w.name FROM characters as ch, weapons as w, main as m, users as u WHERE m.id_character=ch.id and m.id_weapon=w.id and m.id_user=u.id and u.name='{self.name}';")
@@ -127,8 +175,12 @@ class Db():
                     print('1. Choose already created hero')
                     print('2. Create new hero')
                     print("")
-                    answer = int(input('Choose: '))
-                    if answer==1:
+                    try:
+                        answer = int(input('Choose: '))
+                    except ValueError:
+                        print('Enter a number!')
+
+                    if answer == 1:
                         print("")
                         for i, character in enumerate(characters):
                             weapons = character[1].split("_")
@@ -138,7 +190,13 @@ class Db():
                                 print(f'{i+1}. {character[0]} with {weapons[0].capitalize()}') 
 
                         print("")
-                        id_charcter = int(input('Choose your hero: '))
+                        while True:
+                            try:
+                                id_charcter = int(input('Choose your hero: '))
+                                break
+                            except ValueError:
+                                print('Enter a number!')
+                                time.sleep(1)
                         self.character = (characters[id_charcter-1][0])
                         self.weapon = (characters[id_charcter-1][1])
                         break
