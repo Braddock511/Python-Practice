@@ -187,3 +187,29 @@ ALTER TABLE ONLY public.main
 -- PostgreSQL database dump complete
 --
 
+-- Characters
+INSERT INTO public.characters (id, name, hp, damage, agility, intelligence, speed) VALUES (1, 'Warrior', 120, 100, 60, 20, 30);
+INSERT INTO public.characters (id, name, hp, damage, agility, intelligence, speed) VALUES (2, 'Wizard', 60, 140, 20, 100, 20);
+INSERT INTO public.characters (id, name, hp, damage, agility, intelligence, speed) VALUES (3, 'Archer', 80, 120, 80, 60, 50);
+
+-- Weapons
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (1, 1, 'sword', 100, 50, 1.35);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (2, 1, 'axe', 80, 60, 0.95);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (3, 1, 'spear', 110, 40, 1);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (4, 2, 'fire_wand', 200, 10, 0.2);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (5, 2, 'wind_wand', 50, 100, 0.1);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (6, 2, 'lighting_wand', 100, 50, 0.2);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (7, 3, 'short_bow', 100, 50, 0.5);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (8, 3, 'long_bow', 150, 20, 0.85);
+INSERT INTO public.weapons (id, id_character, name, attack, speed_attack, weight) VALUES (9, 3, 'crossbow', 200, 10, 1.2);
+
+-- Enemies
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (1, 'Troll', 1000, 20, 0);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (4, 'Zombie', 2000, 5, 0);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (6, 'Blacksmith', 400, 15, 20);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (3, 'Wraith', 200, 40, 70);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (2, 'Wolf', 100, 10, 30);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (5, 'Rat', 50, 5, 50);
+
+-- Test user
+INSERT INTO public.users (id, name, password) VALUES (1, '', '');
