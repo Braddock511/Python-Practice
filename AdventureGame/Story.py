@@ -69,25 +69,41 @@ class Item():
             return self.items
 
     #gold found druning game
-    def get_gold(self, new_gold: int, where: str) -> int:
+    def get_gold(self, new_gold: int, where: str, found: bool = True) -> int:
         while True:
-            print('')
-            print(f'You found {new_gold} gold {where}!')
-            print('')
-            take = input('You wanna take it? (Y/N) ')
+            if found:
+                print('')
+                print(f'You found {new_gold} gold {where}!')
+                print('')
+                take = input('You wanna take it? (Y/N) ')
 
-            if take.upper() == 'Y':
+                if take.upper() == 'Y':
+                    self.gold += new_gold
+
+                elif take.upper() == 'N':
+                    break
+                
+                else:
+                    print("")
+                    print('You can only choose between yes and no!')
+                    time.sleep(1)
+            else:
                 self.gold += new_gold
 
-            elif take.upper() == 'N':
-                break
-                
-            else:
-                print("")
-                print('You can only choose between yes and no!')
-                time.sleep(1)
-
             return self.gold
+
+    #gold subtraction
+    def gold_sub(self, gold: int) -> int:
+        self.gold -= gold
+        return self.get_gold
+    
+    #remove item from list
+    def remove_item(self, item: str) -> list:
+        try:
+            self.items.remove(item)
+        except ValueError:
+            pass
+        return self.items
 
 
     def return_items(self) -> list:
