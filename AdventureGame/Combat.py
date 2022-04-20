@@ -54,6 +54,7 @@ class Combat:
             if self.hp<1:
                 print("")
                 print('You lose!')
+                time.sleep(2)
                 return exit()
             
             #player choosing
@@ -178,6 +179,7 @@ class Combat:
             if self.enemy_hp < 1:
                 print("")
                 print('You won!')
+                time.sleep(2)
                 return True
 
             else:

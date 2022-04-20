@@ -126,9 +126,13 @@ class Db():
                     answer = input('Do you wanna register? (Y/N) ')
                     if answer.upper() == 'Y':
                         self.new_user()
+                        self.new_character()
+                        self.add_to_main()
+                        print('')
+                        print('Sign in now')
                         break
                     elif answer.upper() == 'N':
-                        pass
+                        break
                     else:
                         print("")
                         print('You can only choose between yes and no!')
@@ -181,25 +185,32 @@ class Db():
                         print('Enter a number!')
 
                     if answer == 1:
-                        print("")
-                        for i, character in enumerate(characters):
-                            weapons = character[1].split("_")
-                            try:
-                                print(f'{i+1}. {character[0]} with {weapons[0].capitalize()} {weapons[1]}') 
-                            except IndexError:
-                                print(f'{i+1}. {character[0]} with {weapons[0].capitalize()}') 
+                        if len(characters) != 0:
+                            print("")
+                            for i, character in enumerate(characters):
+                                weapons = character[1].split("_")
+                                try:
+                                    print(f'{i+1}. {character[0]} with {weapons[0].capitalize()} {weapons[1]}') 
+                                except IndexError:
+                                    print(f'{i+1}. {character[0]} with {weapons[0].capitalize()}') 
 
-                        print("")
-                        while True:
-                            try:
-                                id_charcter = int(input('Choose your hero: '))
-                                break
-                            except ValueError:
-                                print('Enter a number!')
-                                time.sleep(1)
-                        self.character = (characters[id_charcter-1][0])
-                        self.weapon = (characters[id_charcter-1][1])
-                        break
+                            print("")
+                            while True:
+                                try:
+                                    id_charcter = int(input('Choose your hero: '))
+                                    break
+                                except ValueError:
+                                    print('Enter a number!')
+                                    time.sleep(1)
+                            self.character = (characters[id_charcter-1][0])
+                            self.weapon = (characters[id_charcter-1][1])
+                            break
+
+                        else:
+                            print("")
+                            print("You don't have any hero!")
+                            print("")
+                            time.sleep(1)
 
                     else:
                         self.new_character()
@@ -226,7 +237,10 @@ class Db():
         with self.conn:
             with self.conn.cursor() as curs:
                 curs.execute(query)
-                return curs.fetchall()
+                try:
+                    return curs.fetchall()
+                except sql.ProgrammingError:
+                    return None
 
     #getting name user
     def get_name(self) -> str:

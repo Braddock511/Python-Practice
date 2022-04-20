@@ -6,7 +6,7 @@ class Npc():
     name: str
 
     #creating window of npc's text
-    def window(self, text: str, without_choose: bool, answer: str = ''):
+    def window(self, text: str, without_choose: bool, answer: str = '') -> None:
         print('-'*55)
         print(f'Person: {self.name}'.center((55)))
         print('')
@@ -37,9 +37,9 @@ class Room():
 
     #showing name of room 
     def name_of_room(self, choose: int) -> None:
-        print("-"*30)
-        print(self.rooms[choose-1].center(30))
-        print("-"*30)
+        print("-"*55)
+        print(self.rooms[choose-1].center(55))
+        print("-"*55)
 
 @dataclass
 class Item():
