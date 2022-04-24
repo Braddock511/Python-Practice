@@ -12,6 +12,7 @@ class Npc():
         print('')
         print(text)
         print('-'*55)
+
         if without_choose:
             input(f'Press enter: {answer}')
 
@@ -23,12 +24,14 @@ class Room():
     def create_rooms(self, entry) -> int:
         while True:
             for i, room in enumerate(self.rooms):
-                print(f'{i+1}. {room}')
+                print(f'{i + 1}. {room}')
+
             try:
                 print("")
                 choose = int(input(f'Choose {entry}: '))
                 print("")
                 return choose
+
             except ValueError:
                 print("")
                 print('Enter a number!')
@@ -38,7 +41,7 @@ class Room():
     #showing name of room 
     def name_of_room(self, choose: int) -> None:
         print("-"*55)
-        print(self.rooms[choose-1].center(55))
+        print(self.rooms[choose - 1].center(55))
         print("-"*55)
 
 @dataclass
@@ -71,10 +74,12 @@ class Item():
     #gold found druning game
     def get_gold(self, new_gold: int, where: str, found: bool = True) -> int:
         while True:
+
             if found:
                 print('')
                 print(f'You found {new_gold} gold {where}!')
                 print('')
+
                 take = input('You wanna take it? (Y/N) ')
 
                 if take.upper() == 'Y':
@@ -87,6 +92,7 @@ class Item():
                     print("")
                     print('You can only choose between yes and no!')
                     time.sleep(1)
+
             else:
                 self.gold += new_gold
 
@@ -101,8 +107,10 @@ class Item():
     def remove_item(self, item: str) -> list:
         try:
             self.items.remove(item)
+
         except ValueError:
             pass
+
         return self.items
 
 
@@ -112,21 +120,26 @@ class Item():
 
 def answer(answers: list) -> int:
     while True:
+
         for i, answer in enumerate(answers):
-            print(f'{i+1}. {answer}')
+            print("")
+            print(f'{i + 1}. {answer}')
         print("")
+
         try:
             choose = int(input('Choose answer: '))
-            if choose>len(answers):
+
+            if choose > len(answers):
                 print("")
                 print('The number is out of range!')
                 print("")
                 time.sleep(1)
                 continue
+
             return choose
+
         except ValueError:
             print('')
             print('Enter a number!')
             print('')
             time.sleep(1)
-        

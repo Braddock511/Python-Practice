@@ -7,7 +7,7 @@ class Combat:
     character: dict 
     weapon: dict 
     enemy: dict 
-    number_of_enemies: int
+    number_of_enemies: int = 1
 
     def __post_init__(self) -> None:
         #character
@@ -25,22 +25,23 @@ class Combat:
         self.weight = self.weapon['weight']
 
         #enemy
-        self.enemy_hp = self.enemy['hp']*self.number_of_enemies
-        self.enemy_attack = self.enemy['attack']+self.number_of_enemies
+        self.enemy_hp = self.enemy['hp'] * self.number_of_enemies
+        self.enemy_attack = self.enemy['attack'] + self.number_of_enemies
         self.enemy_dodge = self.enemy['dodge']
 
-    def fight(self, help: list[str, int] = ['', 0]) -> bool:
+    def fight(self, help: list[str, int] = ['', 0], arena: bool = False) -> bool:
         print('-'*40)
         print('Fight!'.center(40))
         print('-'*40)
+        
         while True:
             #player
-            self.fast_attack = int(random.uniform((self.attack / self.weight * (self.damage / self.speed_attack)) / 1.25, self.attack / self.weight * (self.damage / self.speed_attack)))
+            self.fast_attack = int(random.uniform((self.attack * self.weight * (self.damage / self.speed_attack)) / 1.25, self.attack * self.weight * (self.damage / self.speed_attack)))
             self.strong_attack = int(random.uniform((self.attack + (self.damage * self.weight)) / 1.25, self.attack + (self.damage * self.weight))) 
             self.chance_of_dodge = round(random.uniform((self.agility / self.weight) / 4, self.agility / self.weight) / 2)
             
             #enemy
-            self.attack_enemy = int(random.uniform(self.enemy_attack / 1.5, self.enemy_attack))*random.randint(1,4)
+            self.attack_enemy = int(random.uniform(self.enemy_attack / 1.5, self.enemy_attack)) * random.randint(1,4)
             self.dodge_enemy = round(random.uniform(self.enemy_dodge / 1.5, self.enemy_dodge))
 
             #help from someone
@@ -55,22 +56,28 @@ class Combat:
                 print("")
                 print('You lose!')
                 time.sleep(2)
+                
+                if arena:
+                    break
+                
                 return exit()
             
             #player choosing
             while True:
-                print('-'*40)
+                print('-' * 40)
                 print(f'Your hp: {self.hp}      {self.enemy["name"]} hp: {self.enemy_hp}')
                 print(f'Your stamina: {self.stamina}')
-                print('-'*40)
+                print('-' * 40)
                 print('1. Fast attack') 
                 print('2. Strong attack') 
                 print('3. Rest')
                 print(f'4. Drink elixir of vitality ({self.elixirs})')
                 print("")
+
                 try:
                     choice = int(input('Option: '))
                     break
+
                 except ValueError:
                     print("")
                     print('Enter a number!')
@@ -81,23 +88,25 @@ class Combat:
             if choice == 1:
                 if self.stamina >= 25:
                     if luck > self.enemy_dodge / 100:
-                        self.enemy_hp-=self.fast_attack
+                        self.enemy_hp -= self.fast_attack
                         print("")
                         print(f"You dealt {self.fast_attack} damage to a {self.enemy['name']}!")
                         
                         if luck <= 0.1:
-                            self.enemy_hp-=self.fast_attack
+                            self.enemy_hp -= self.fast_attack
                             print("")
                             print("Double attack!")
                             print("")
                             print(f"You dealt additional {self.fast_attack} damage to a {self.enemy['name']}!")
                             time.sleep(1)
+
                     else:
                         print("")
                         print('Enemy dodged your attack!')
                         luck = random.uniform(0,1)
 
                     self.stamina -= 25
+
                 else:
                     print("")
                     print('You have to rest!')
@@ -108,22 +117,25 @@ class Combat:
             if choice == 2:
                 if self.stamina >= 50:
                     if luck > self.enemy_dodge / 100:
-                        self.enemy_hp-=self.strong_attack
+                        self.enemy_hp -= self.strong_attack
                         print("")
                         print(f"You dealt {self.strong_attack} damage to a {self.enemy['name']}!")
+
                         if luck <= 0.1:
-                            self.enemy_hp-=self.strong_attack * 1.5
+                            self.enemy_hp -= self.strong_attack * 1.5
                             print("")
                             print("Critical attack!")
                             print("")
                             print(f"You dealt additional {self.strong_attack * 1.5} damage to a {self.enemy['name']}!")
                             time.sleep(1)
+
                     else:
                         print("")
                         print('Enemy dodged your attack!')
                         luck = random.uniform(0,1)
 
                     self.stamina -= 50
+
                 else:
                     print("")
                     print('You have to rest!')
@@ -141,6 +153,7 @@ class Combat:
                 if self.elixirs != 0:
                     if self.static_hp != self.hp:
                         restore_hp = random.randint(int(self.static_hp / 2), self.static_hp)
+
                         if self.hp + restore_hp > self.static_hp:
                             restore_hp = self.static_hp - self.hp  
                         self.hp += restore_hp
@@ -169,6 +182,7 @@ class Combat:
                     print("")
                     self.enemy_hp -= someone_attack
                     print(f"{someone_name} dealt {someone_attack} damage to a {self.enemy['name']}!")
+                    
                 else:
                     print("")
                     print(f'Enemy dodged {someone_name} attack!')
@@ -188,6 +202,7 @@ class Combat:
                     self.hp -= self.attack_enemy
                     print("")
                     print(f'{self.enemy["name"]} dealt you {self.attack_enemy} damage!')
+
                 else:
                     print("")
                     print(f'You dodged {self.enemy["name"]} attack!')
@@ -196,13 +211,13 @@ class Combat:
             time.sleep(.5)
 
     def show_statistics(self):
-        print('-'*20)
+        print('-' * 20)
         print(f"Hp: {self.character['hp']}")
         print(f"Damage: {self.character['damage']}")
         print(f"Agility: {self.character['agility']}")
         print(f"Intelligence: {self.character['intelligence']}")
         print(f"Speed: {self.character['speed']}")
-        print('-'*20)
+        print('-' * 20)
         input('Press enter to exit ')
 
 

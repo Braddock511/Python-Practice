@@ -210,6 +210,10 @@ INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (6, 'Blacksmith'
 INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (3, 'Wraith', 200, 40, 70);
 INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (2, 'Wolf', 100, 10, 30);
 INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (5, 'Rat', 50, 5, 50);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (7, 'Mercenary', 200, 10, 20);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (8, 'Huntress', 250, 30, 55);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (9, 'Bandits', 100, 10, 10);
+INSERT INTO public.enemies (id, name, hp, attack, dodge) VALUES (10, 'Armed Villagers', 50, 5, 10);
 
 -- Test user
-INSERT INTO public.users (id, name, password) VALUES (1, '', '');
+INSERT INTO public.users (id, name, password) VALUES (1, 'test', '123');
