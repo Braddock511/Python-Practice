@@ -6,7 +6,7 @@ file=open('D:\Programowanie\Programy\projekty\LearnWords\Words.txt','r+')
 words=file.read().split("\n")
 words.remove("")
 
-class learn():
+class LearnWords():
     idk=[]
     dec=3
 
@@ -18,7 +18,7 @@ class learn():
             print("Enter a number!")
             time.sleep(.5)
 
-    #pisanie slowek
+    #spelling words
     def spelling(self):
         score=0
         for _ in range(self.dec):
@@ -34,14 +34,14 @@ class learn():
                 print("\033[1mCorrect\033[0m")
                 print("============")
                 score+=1
-                #usuwa słowka z idk na ktore dobrze odpowiedziano
+                #removes words from idk that were well answered
                 if random_words in self.idk:
                     self.idk.remove(random_words)
             else:
                 print("============")
                 print(f"\033[1mWrong | Correct is {guess[1].lower()}\033[0m")
                 print("============")
-                #dodaje słowka na ktore zle odpowiedziano
+                #adds words that were wrongly answered
                 if self.idk.count(random_words)!=1:
                     self.idk.append("-".join(guess))
 
@@ -50,7 +50,7 @@ class learn():
         
             
 
-    #dodwanie slowek do pliku ze slowkami
+    #adding words to a word file
     def add(self):
         pl = input("Add polish word: ")
         eng = input("Add a translation of the word: ")
@@ -59,7 +59,7 @@ class learn():
         file.close()
 
     
-    #pokazywanie slowek z pliku ze slowkami
+    #showing words from a word file
     def show(self):
         print("")
         while True:
@@ -72,7 +72,7 @@ class learn():
             else:
                 break
     
-    #usuwanie slowek z pliku ze slowkami
+    #deleting words from the word file
     def remove(self):
         print("")
         while True:
@@ -89,7 +89,7 @@ class learn():
                     file.close()
             break
 
-    #wybieranie
+    #select ansewers
     def selection(self):
         score = 0
         for _ in range(self.dec):
@@ -184,14 +184,13 @@ class learn():
         print(f"Your score: {score}/{self.dec}")
         time.sleep(1)
 
-    #wymowa
+    #pronunciation
     def pronunciation(self):
         print(312) 
             
         
     def __init__(self):
-        #Menu główne
-
+        #Menu
         print("")
         print("Hello in learn english words program!")
         while True:
@@ -211,21 +210,28 @@ class learn():
                 option=int(input("Choose option 1-9: "))
                 if option==1:
                     self.spelling()
+
                 if option==2:
                     self.selection()
+
                 if option==3:
                     self.pronunciation()
+
                 if option==4:
                     self.add()
+
                 if option==5:
                    self.remove()
+
                 if option==6:
                     self.show()
+
                 if option==7:
                     if self.idk==[]:
                         print("")
                         print("You know all the words!")
                         time.sleep(.5)
+
                     else:
                         while True:
                             print("")
@@ -236,8 +242,10 @@ class learn():
                                 break
                             else:
                                 break
+
                 if option==8:
                     self.how_many()
+
                 if option==9:
                     exit()
                 
@@ -247,6 +255,6 @@ class learn():
                 time.sleep(.5)
 
     
-first = learn()
+learn = LearnWords()
 
-#dodanie trybu głosowego
+#add voice mode

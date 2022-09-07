@@ -1,5 +1,4 @@
 import time
-from tkinter import W
 from Database import *
 from Combat import *
 from Story import *
