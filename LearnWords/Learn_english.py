@@ -2,7 +2,8 @@ import time
 import random
 import pyttsx3 as pt
 
-file=open('D:\Programowanie\Programy\projekty\LearnWords\Words.txt','r+')
+file=open('LearnWords/words.txt','r+')
+
 words=file.read().split("\n")
 words.remove("")
 
@@ -11,36 +12,37 @@ class LearnWords():
     dec=3
 
     def how_many(self):
-        try:
-            self.dec= int(input("Enter value: "))
-        except ValueError:
-            print("")
-            print("Enter a number!")
-            time.sleep(.5)
+        self.dec = int(input("Enter value: "))
 
     #spelling words
     def spelling(self):
         score=0
+
         for _ in range(self.dec):
             random_words=random.choice(words)
             guess=random_words.split("-")
             random.shuffle(guess)
+
             print("------------")
             print('\033[1m'+guess[0]+'\033[0m')
             print("------------")
-            odp=input("Enter the translation: ")
-            if odp==guess[1].lower():
+            odp = input("Enter the translation: ")
+
+            if odp == guess[1].lower():
                 print("============")
                 print("\033[1mCorrect\033[0m")
                 print("============")
                 score+=1
+
                 #removes words from idk that were well answered
                 if random_words in self.idk:
                     self.idk.remove(random_words)
+
             else:
                 print("============")
                 print(f"\033[1mWrong | Correct is {guess[1].lower()}\033[0m")
                 print("============")
+
                 #adds words that were wrongly answered
                 if self.idk.count(random_words)!=1:
                     self.idk.append("-".join(guess))
@@ -63,25 +65,24 @@ class LearnWords():
     def show(self):
         print("")
         while True:
-            for index,ele in enumerate(words):
-                print(f'{index}. {ele}')
+            for index, element in enumerate(words):
+                print(f'{index+1}. {element}')
             print("")
-            odp=input("Press enter to exit ")
-            if odp=="":
-                break
-            else:
-                break
+            input("Press enter to exit ")
+            break
     
     #deleting words from the word file
     def remove(self):
         print("")
         while True:
-            for index,ele in enumerate(words):
-                print(f'{index}. {ele}')
+            for index, element in enumerate(words):
+                print(f'{index}. {element}')
+
             print("")
-            odp=int(input("Enter number of word which you would remove: "))
-            for index,ele in enumerate(words):
-                if index==odp:
+            odp = int(input("Enter number of word which you would remove: "))
+
+            for index, element in enumerate(words):
+                if index == odp:
                     words.remove(words[index])
                     file.seek(0)
                     file.truncate(0)
@@ -92,9 +93,10 @@ class LearnWords():
     #select ansewers
     def selection(self):
         score = 0
+
         for _ in range(self.dec):
             random_words = [words[random.randint(0,len(words)-1)] for _ in range(4)]
-            guess= random_words[0].split('-')
+            guess = random_words[0].split('-')
             rest = [x.split('-') for x in random_words[1:]]
             all = rest+[guess]
             random.shuffle(all)
@@ -104,77 +106,80 @@ class LearnWords():
                 print("------------")
                 print('\033[1m'+guess[1]+'\033[0m')
                 print("------------")
-                print(f'1.{all[0][0]}') 
-                print(f'2.{all[1][0]}') 
-                print(f'3.{all[2][0]}') 
-                print(f'4.{all[3][0]}') 
+                print(f'1. {all[0][0]}') 
+                print(f'2. {all[1][0]}') 
+                print(f'3. {all[2][0]}') 
+                print(f'4. {all[3][0]}') 
                 print("")
+
                 odp = int(input('Choose answer: '))
                 print("")
 
-                if odp==1:
-                    if all[0][0]==guess[0]:
-                        print("============")
-                        print("\033[1mCorrect\033[0m")
-                        print("============")
-                        score+=1
-                        if dont_know in self.idk:
-                            self.idk.remove(dont_know)
-                    else:
-                        print("============")
-                        print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
-                        print("============")
-                        if self.idk.count(dont_know)!=1:
-                            self.idk.append(dont_know)
-                        time.sleep(.5)
+                match odp:
+                    case 1:
+                        if all[0][0]==guess[0]:
+                            print("============")
+                            print("\033[1mCorrect\033[0m")
+                            print("============")
+                            score+=1
+                            if dont_know in self.idk:
+                                self.idk.remove(dont_know)
+                        else:
+                            print("============")
+                            print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
+                            print("============")
+                            if self.idk.count(dont_know)!=1:
+                                self.idk.append(dont_know)
+                            time.sleep(.5)
 
-                if odp==2:
-                    if all[1][0]==guess[0]:
-                        print("============")
-                        print("\033[1mCorrect\033[0m")
-                        print("============")
-                        score+=1
-                        if dont_know in self.idk:
-                            self.idk.remove(dont_know)
-                    else:
-                        print("============")
-                        print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
-                        print("============")
-                        if self.idk.count(dont_know)!=1:
-                            self.idk.append(dont_know)
-                        time.sleep(.5)
+                    case 2:
+                        if all[1][0]==guess[0]:
+                            print("============")
+                            print("\033[1mCorrect\033[0m")
+                            print("============")
+                            score+=1
+                            if dont_know in self.idk:
+                                self.idk.remove(dont_know)
+                        else:
+                            print("============")
+                            print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
+                            print("============")
+                            if self.idk.count(dont_know)!=1:
+                                self.idk.append(dont_know)
+                            time.sleep(.5)
 
-                if odp==3:
-                    if all[2][0]==guess[0]:
-                        print("============")
-                        print("\033[1mCorrect\033[0m")
-                        print("============")
-                        score+=1
-                        if dont_know in self.idk:
-                            self.idk.remove(dont_know)
-                    else:
-                        print("============")
-                        print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
-                        print("============")
-                        if self.idk.count(dont_know)!=1:
-                            self.idk.append(dont_know)
-                        time.sleep(.5)
+                    case 3:
+                        if all[2][0]==guess[0]:
+                            print("============")
+                            print("\033[1mCorrect\033[0m")
+                            print("============")
+                            score+=1
+                            if dont_know in self.idk:
+                                self.idk.remove(dont_know)
+                        else:
+                            print("============")
+                            print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
+                            print("============")
+                            if self.idk.count(dont_know)!=1:
+                                self.idk.append(dont_know)
+                            time.sleep(.5)
 
-                if odp==4:
-                    if all[3][0]==guess[0]:
-                        print("============")
-                        print("\033[1mCorrect\033[0m")
-                        print("============")
-                        score+=1
-                        if dont_know in self.idk:
-                            self.idk.remove(dont_know)
-                    else:
-                        print("============")
-                        print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
-                        print("============")
-                        if self.idk.count(dont_know)!=1:
-                            self.idk.append(dont_know)
-                        time.sleep(.5)
+                    case 4:
+                        if all[3][0]==guess[0]:
+                            print("============")
+                            print("\033[1mCorrect\033[0m")
+                            print("============")
+                            score+=1
+                            if dont_know in self.idk:
+                                self.idk.remove(dont_know)
+                        else:
+                            print("============")
+                            print(f"\033[1mWrong | Correct is {guess[0]}\033[0m")
+                            print("============")
+                            if self.idk.count(dont_know)!=1:
+                                self.idk.append(dont_know)
+                            time.sleep(.5)
+
             except ValueError:
                 print("")
                 print("Enter a number!")
@@ -207,47 +212,46 @@ class LearnWords():
             print("")
             
             try:
-                option=int(input("Choose option 1-9: "))
-                if option==1:
-                    self.spelling()
+                option = int(input("Choose option 1-9: "))
 
-                if option==2:
-                    self.selection()
+                match option:
+                    case 1:
+                        self.spelling()
 
-                if option==3:
-                    self.pronunciation()
+                    case 2:
+                        self.selection()
 
-                if option==4:
-                    self.add()
+                    case 3:
+                        self.pronunciation()
 
-                if option==5:
-                   self.remove()
+                    case 4:
+                        self.add()
 
-                if option==6:
-                    self.show()
+                    case 5:
+                        self.remove()
 
-                if option==7:
-                    if self.idk==[]:
-                        print("")
-                        print("You know all the words!")
-                        time.sleep(.5)
+                    case 6:
+                        self.show()
 
-                    else:
-                        while True:
+                    case 7:
+                        if self.idk==[]:
                             print("")
-                            print("\n".join(self.idk))
-                            print("")
-                            odp=input("Press enter to exit ")
-                            if odp=="":
-                                break
-                            else:
+                            print("You know all the words!")
+                            time.sleep(.5)
+
+                        else:
+                            while True:
+                                print("")
+                                print("\n".join(self.idk))
+                                print("")
+                                input("Press enter to exit ")
                                 break
 
-                if option==8:
-                    self.how_many()
+                    case 8:
+                        self.how_many()
 
-                if option==9:
-                    exit()
+                    case 9:
+                        exit()
                 
             except ValueError:
                 print("")
