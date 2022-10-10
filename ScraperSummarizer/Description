@@ -1,0 +1,7 @@
+Scraper which scraping short information about query from the user.
+
+Information are scraped from google summary, google "People also ask" queries and wikipedia.
+
+Information from wikipedia are summarized with the BERT Extractive Summarizer pretrained model. 
+
+Link to model - https://pypi.org/project/bert-extractive-summarizer/
