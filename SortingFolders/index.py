@@ -17,7 +17,3 @@ class Sorting():
             if second>interval:
                 first+=1
                 second=1
-            
-
-    
-    

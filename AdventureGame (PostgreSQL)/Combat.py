@@ -219,6 +219,3 @@ class Combat:
         print(f"Speed: {self.character['speed']}")
         print('-' * 20)
         input('Press enter to exit ')
-
-
-# test = Combat({'name': 'Warrior', 'hp': 120, 'damage': 100, 'agility': 60, 'intelligence': 20, 'speed': 30}, {'name': 'sword', 'attack': 100, 'speed_attack': 50, 'weight': 1.35},{'name': 'Troll', 'hp': 500, 'attack': 20, 'dodge': 0}, 3).fight()
