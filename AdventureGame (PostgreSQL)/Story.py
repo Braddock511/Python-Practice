@@ -2,7 +2,7 @@ import time
 from dataclasses import dataclass
 
 @dataclass
-class Npc():
+class Npc:
     name: str
 
     #creating window of npc's text
@@ -17,11 +17,11 @@ class Npc():
             input(f'Press enter: {answer}')
 
 @dataclass
-class Room():
+class Room:
     rooms: list 
 
-    #creating list of rooms to choose
-    def create_rooms(self, entry) -> int:
+    # creating list of rooms to choose
+    def create_rooms(self, entry: str) -> int:
         while True:
             for i, room in enumerate(self.rooms):
                 print(f'{i + 1}. {room}')
@@ -45,7 +45,7 @@ class Room():
         print("-"*55)
 
 @dataclass
-class Item():
+class Item:
     gold: int 
     items: list 
 
@@ -101,7 +101,7 @@ class Item():
     #gold subtraction
     def gold_sub(self, gold: int) -> int:
         self.gold -= gold
-        return self.get_gold
+        return self.gold
     
     #remove item from list
     def remove_item(self, item: str) -> list:

@@ -11,23 +11,22 @@ def main():
     scrap = scraper.Scraper()
     scrap.enter_input(user_input)
 
-    #google
-    google_text = scrap.google_summary()
+    # Get Google summary and queries
+    google_summary  = scrap.google_summary()
     google_queries = scrap.get_google_queries()
 
-    #wikipedia
+    # Get Wikipedia summary
     scrap.wikipedia_page(user_input)
-    text = scrap.get_text()
-    clean_text = scrap.clean_text(text)
+    wikipedia_text = scrap.clean_text(scrap.get_text())
     
     scrap.close()
 
-    #summrize
-    summrize_text = summarize(clean_text)
+    # Get Wikipedia summary
+    wikipedia_summary = summarize(wikipedia_text)
 
     with open("output.txt", "w", encoding='utf-8') as f:
         f.write("Google summary: \n\n")
-        f.write(google_text)
+        f.write(google_summary)
         f.write("\n\n")
 
         f.write("\nGoogle queries and ansewers:\n\n")
@@ -35,7 +34,7 @@ def main():
         f.write("\n\n")
 
         f.write("\nSummary text from Wikipedia:\n\n")
-        f.write(summrize_text)
+        f.write(wikipedia_summary )
 
         f.close()
 

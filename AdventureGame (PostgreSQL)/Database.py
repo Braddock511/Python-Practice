@@ -3,7 +3,7 @@ import psycopg2 as sql
 from dataclasses import dataclass
 
 @dataclass
-class Db():
+class Db:
     host: str
     port: int
     db: str

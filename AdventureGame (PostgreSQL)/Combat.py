@@ -52,7 +52,7 @@ class Combat:
             luck = random.uniform(0,1)
             
             #lose
-            if self.hp<1:
+            if self.hp < 1:
                 print("")
                 print('You lose!')
                 time.sleep(2)

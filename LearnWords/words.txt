@@ -1,8 +1,14 @@
+odkad-since
 zadanie-assignment
 odbierac-receive
+okreslic ilosciowo-quantify
+ilosciowo-quantitative
 oddzielny-discrete
+ciagly-continuous
 wahac_sie-hesitate
+probka-sample
+pole-field
 wniosek-inference
+pewny-certain
 mnostwo-plenty
 zakres-extent
-odzyskac-to_regain

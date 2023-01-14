@@ -13,14 +13,19 @@ def main():
 
     acc = input('Do you have account? (Y/N) ')
 
+    # If the user has an account
     if acc.upper() == 'Y':
+        # Attempt to log them in
         dbase.login()
+        # Retrieve their character information
         dbase.user_character()
 
+    # If the user does not have an account
     elif acc.upper() == 'N':
         dbase.new_user()
         dbase.new_character()
         dbase.add_to_main()
+
         print('')
         print('Sign in now')
         dbase.login()

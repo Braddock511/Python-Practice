@@ -24,9 +24,11 @@ class Scraper:
         self.driver.maximize_window()
         
         self.driver.get('https://www.google.com/')
-        self.driver.find_element(By.ID, 'L2AGLb').click() #Accept cookie
+        
+        # Accept cookie
+        self.driver.find_element(By.ID, 'L2AGLb').click() 
 
-        #Switch language to english
+        # Switch language to english
         self.driver.get("https://www.google.com/preferences?hl=pl&fg=1#languages")
         self.driver.find_element(By.XPATH, '//*[@id="langten"]/div/span[1]').click()
         self.driver.find_element(By.XPATH, '//*[@id="form-buttons"]/div[1]').click()
@@ -37,27 +39,32 @@ class Scraper:
         self.queries = []
 
     def enter_input(self, user_input: str) -> None:
+        # Enter user input in search box
         self.driver.find_element(By.CLASS_NAME, 'gLFyf.gsfi').send_keys(user_input)
 
+        # Click search button
         search = self.driver.find_element(By.CLASS_NAME, "FPdoLc.lJ9FBc")
         search.find_element(By.CLASS_NAME, "gNO89b").click()
 
 
     def get_google_queries(self) -> dict:
+        # Get google queries block
         google_queries = self.driver.find_element(By.CLASS_NAME, "Wt5Tfe")
         elements = google_queries.find_elements(By.CLASS_NAME, "r21Kzd")
-
+        
+        # Get questions and answers
         quries = google_queries.find_elements(By.CLASS_NAME,"iDjcJe.IX9Lgd.wwB5gf")
-
         answers = google_queries.find_elements(By.CLASS_NAME, 'hgKElc')
 
+        # Iterate over all questions and answers and save them in queries list
         for element, query, answer in zip(elements, quries, answers):
             element.click()
             self.queries.append(f'{query.text} - {answer.text}')
             sleep(.1)
 
-        if self.queries != []:
+        if self.queries:
             return "\n\n".join(self.queries)
+
         else:
             return 'There is not queries and ansewers from google'
 
@@ -69,15 +76,14 @@ class Scraper:
         except NoSuchElementException:
             return 'There is no summary from google'
 
-        
-    
     def wikipedia_page(self, user_input: str) -> None:
         self.driver.get(f'https://en.wikipedia.org/')
 
+        # input the user's search query in the search bar
         self.driver.find_element(By.CLASS_NAME, 'vector-search-box-input').send_keys(user_input)
         self.driver.find_element(By.ID, 'searchButton').click()
 
-        #If the input isn't precise
+        # if the input isn't precise
         try:
             search_result = self.driver.find_element(By.CLASS_NAME, 'mw-search-result-heading')
             search_result.find_element(By.XPATH, f'//a[@title = "{search_result.text}"]').click()
@@ -92,7 +98,8 @@ class Scraper:
             self.driver.execute_script("var element = arguments[0]; element. parentNode. removeChild(element);", info_table)
         except NoSuchElementException:
             pass
-
+        
+        # get all paragraphs from the page
         paragraphs = self.driver.find_elements(By.XPATH, '//p')
         text = ''
 
@@ -102,8 +109,11 @@ class Scraper:
         return text
         
     def clean_text(self, text: str) -> str:
-        text = sub(r"\([^()]*\)", '', text) #remove brackets with content
-        text = sub(r"\[.*?\]", '', text) #remove square brackets with content
+        # remove brackets with content
+        text = sub(r"\([^()]*\)", '', text) 
+        
+        # remove square brackets with content
+        text = sub(r"\[.*?\]", '', text) 
 
         return text
 
