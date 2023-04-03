@@ -1,1 +1,1 @@
-Simple Python projects for practice and learning 
+Python projects for practice and learning 
